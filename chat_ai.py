@@ -1,3 +1,4 @@
+print("DEBUG: chat_ai.py is being executed.")
 import os
 import json
 import datetime
@@ -5,19 +6,55 @@ from typing import List, Dict
 import openai
 from dotenv import load_dotenv
 from serpapi import GoogleSearch
+import requests
+from bs4 import BeautifulSoup
+import httpx
+import logging
+
+# ロギング設定
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 # 環境変数の読み込み
 load_dotenv()
 
-# APIキーの設定
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# SerpAPIキーの設定
 SERPAPI_API_KEY = os.getenv("SERPAPI_API_KEY")
 
 class ChatAI:
     def __init__(self):
+        logger.debug(f"Loading environment variables...")
         self.conversation_history: List[Dict] = []
         self.history_file = "conversation_history.json"
         self.load_history()
+        self.openai_api_key = os.getenv("OPENAI_API_KEY")
+        self.serpapi_api_key = os.getenv("SERPAPI_API_KEY")
+
+        if not self.openai_api_key:
+            logger.error("OPENAI_API_KEY is not set.")
+            raise ValueError("OPENAI_API_KEY is not set in .env file")
+        if not self.serpapi_api_key:
+            logger.error("SERPAPI_API_KEY is not set.")
+            raise ValueError("SERPAPI_API_KEY is not set in .env file")
+
+        logger.debug(f"OpenAI API Key loaded: {'*****' if self.openai_api_key else 'None'}")
+        logger.debug(f"SerpAPI Key loaded: {'*****' if self.serpapi_api_key else 'None'}")
+        
+        # デバッグ情報を追加
+        logger.debug(f"Attempting to initialize OpenAI client.")
+        logger.debug(f"openai.__version__: {openai.__version__}")
+        logger.debug(f"httpx.__version__: {httpx.__version__}")
+
+        try:
+            self.openai_client = openai.OpenAI(api_key=self.openai_api_key)
+            logger.debug("OpenAI client initialized successfully.")
+        except Exception as e:
+            logger.error(f"Error initializing OpenAI client: {e}")
+            raise
 
     def load_history(self):
         """会話履歴を読み込む"""
@@ -39,10 +76,11 @@ class ChatAI:
 
     def search_web(self, query: str) -> str:
         """ウェブ検索を実行する"""
+        logger.debug(f"Searching web for: {query}")
         try:
             search = GoogleSearch({
                 "q": query,
-                "api_key": SERPAPI_API_KEY
+                "api_key": self.serpapi_api_key
             })
             results = search.get_dict()
             
@@ -50,6 +88,7 @@ class ChatAI:
                 return "\n".join([result.get("snippet", "") for result in results["organic_results"][:3]])
             return "検索結果が見つかりませんでした。"
         except Exception as e:
+            logger.error(f"検索中にエラーが発生しました: {e}")
             return f"検索中にエラーが発生しました: {e}"
 
     def get_ai_response(self, user_input: str) -> str:
@@ -73,8 +112,8 @@ class ChatAI:
                 search_results = self.search_web(search_query)
                 messages.append({"role": "system", "content": f"検索結果: {search_results}"})
 
-            # OpenAI APIを使用して応答を生成
-            response = openai.ChatCompletion.create(
+            # OpenAI APIを使用して応答を生成 (新しい構文)
+            response = self.openai_client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=messages,
                 temperature=0.7,

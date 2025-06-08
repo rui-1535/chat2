@@ -1,66 +1,90 @@
-# チャットAI
+# AI Chatbot
 
-このプロジェクトは、OpenAIのGPTモデルを使用したチャットAIを実装しています。ウェブ検索機能と会話履歴の保存機能を備えています。
+This is a Python-based AI Chatbot that can engage in conversations and perform web searches using OpenAI's GPT models and SerpAPI.
 
-## 機能
+## Features
 
-- 自然な会話が可能
-- ウェブ検索機能
-- 会話履歴の保存と参照
-- ユーザーとの対話を通じた学習
+- **Interactive Chat**: Engage in natural language conversations with the AI.
+- **Web Search Integration**: Ask the AI to search the web for information using keywords like "検索" or "調べて".
+- **Conversation History**: Automatically saves and loads conversation history.
+- **Secure Password Generator**: A utility script to generate strong, random passwords.
+
+## Setup
+
+### Prerequisites
+
+- Python 3.10 or higher
+- OpenAI API Key
+- SerpAPI Key
+
+### Installation
+
+1.  **Clone the repository (or download the files):**
+
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git
+    cd YOUR_REPOSITORY_NAME
+    ```
+
+2.  **Create a Python virtual environment and activate it:**
+
+    ```bash
+    python -m venv venv
+    # On Windows:
+    .\venv\Scripts\Activate.ps1
+    # On macOS/Linux:
+    source venv/bin/activate
+    ```
+
+3.  **Install the required dependencies:**
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Set up API Keys:**
+
+    Create a file named `.env` in the root directory of the project and add your API keys:
+
+    ```
+    OPENAI_API_KEY=YOUR_OPENAI_API_KEY
+    SERPAPI_API_KEY=YOUR_SERPAPI_API_KEY
+    ```
+
+    You can get your OpenAI API key from [https://platform.openai.com/](https://platform.openai.com/).
+    You can get your SerpAPI key from [https://serpapi.com/](https://serpapi.com/).
+
+    *Do not share your `.env` file publicly as it contains sensitive information.*
+
+## Usage
+
+### Running the Chatbot
+
+Make sure your virtual environment is activated, then run:
+
+```bash
+python chat_ai.py
+```
+
+Type your message at the `あなた:` prompt. Type `quit` to exit.
+
+### Using the Password Generator
+
+Make sure your virtual environment is activated, then run:
+
+```bash
+python password_generator.py
+```
+
+This will generate a random password with specific requirements (at least 8 characters, one uppercase, one lowercase, one number, one special character).
+
+## License
+
+This project is licensed under the MIT License - see the `LICENSE` file for details.
 
 ## デモ
 
 [デモサイト](https://your-netlify-url.netlify.app)で実際に試すことができます。
-
-## セットアップ
-
-### 前提条件
-
-- Python 3.9以上
-- OpenAI APIキー
-- SerpAPI APIキー（オプション：ウェブ検索機能を使用する場合）
-
-### インストール
-
-1. リポジトリをクローン:
-```bash
-git clone https://github.com/rui-1535/chat1.git
-cd chat1
-```
-
-2. 必要なパッケージのインストール:
-```bash
-pip install -r requirements.txt
-```
-
-3. 環境変数の設定:
-`.env`ファイルを作成し、以下の変数を設定してください：
-```
-OPENAI_API_KEY=your_openai_api_key
-SERPAPI_API_KEY=your_serpapi_api_key
-```
-
-### 使用方法
-
-1. ローカルでの実行:
-```bash
-python app.py
-```
-
-2. ブラウザでアクセス:
-```
-http://localhost:5000
-```
-
-## Netlifyへのデプロイ
-
-1. Netlifyアカウントを作成
-2. このリポジトリをNetlifyに接続
-3. 以下の環境変数を設定:
-   - `OPENAI_API_KEY`
-   - `SERPAPI_API_KEY`
-4. デプロイを開始
 
 ## プロジェクト構造
 
