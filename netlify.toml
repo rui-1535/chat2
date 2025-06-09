@@ -4,7 +4,7 @@
   functions = "netlify/functions"
 
 [build.environment]
-  PYTHON_VERSION = "3.13"
+  PYTHON_VERSION = "3.10"
   PIP_CACHE_DIR = ".pip-cache"
 
 [[redirects]]
