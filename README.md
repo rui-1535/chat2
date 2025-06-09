@@ -22,8 +22,8 @@ This is a Python-based AI Chatbot that can engage in conversations and perform w
 1.  **Clone the repository (or download the files):**
 
     ```bash
-    git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git
-    cd YOUR_REPOSITORY_NAME
+    git clone https://github.com/Rui-1535/ai-chatbot.git
+    cd ai-chatbot
     ```
 
 2.  **Create a Python virtual environment and activate it:**
@@ -84,7 +84,7 @@ This project is licensed under the MIT License - see the `LICENSE` file for deta
 
 ## デモ
 
-[デモサイト](https://your-netlify-url.netlify.app)で実際に試すことができます。
+[デモサイト](https://ai-chatbot-rui.netlify.app)で実際に試すことができます。
 
 ## プロジェクト構造
 
